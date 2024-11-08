@@ -1,0 +1,53 @@
+{% extends 'hod_template/base_template.html' %}
+{%load static%}
+{% block header_page_title %} 
+Student Apply for Leave
+{% endblock header_page_title %}
+{% block main_content %}
+<section class="content">
+<div class="container-fluid">
+        <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title"> Student Apply for Leave </h3>
+            </div>
+
+            <div class="table">
+                <table class="table"> 
+                    <tr>
+                        <th> ID </th>
+                        <th> Student ID</th>
+                        <th> Student Name</th>
+                        <th> Leave Date</th>
+                        <th> Leave Messge</th>
+                        <th> Apply on </th>
+                        <th>Action</th>
+                    </tr>
+                    {% for leave in leaves %}
+                        <tr>
+                            <td> {{leave.id}}</td>
+                            <td> {{leave.student_id.admin}}</td>
+                            <td> {{leave.student_id.admin.first_name}} {{leave.student_id.admin.last_name}}</td>
+                            <td> {{leave.leave_date}}</td>
+                            <td> {{leave.leave_message}}</td>
+                            <td>{{leave.created_at}}</td>
+                            <td>
+                                {% if leave.leave_status == 0 %}
+                                <a href="{% url 'student_approve_leave' leave_id=leave.id%}"> Approved </a>
+                                <a href="{% url 'student_disapprove_leave' leave_id=leave.id%}"> Disapproved </a>
+                                {% elif leave.leave_status == 1  %}
+                                <button class="'btn btn-warning" disabled='disabled'> Approved </button>
+                                
+                                {% else %}
+                                <button class="'btn btn-danger" disabled='disabled'> Disapproved </button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+           
+          </div>
+    </div>
+</section>
+{%endblock main_content %}
+

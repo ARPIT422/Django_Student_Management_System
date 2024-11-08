@@ -1,0 +1,33 @@
+{% extends 'student_template/base_template.html' %}
+{%load static%}
+{% block header_page_title %}
+Attendance Data
+{% endblock header_page_title %}
+
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title"> View Attendance </h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for attendance_report in attendance_reports %}
+                    <div class="col-lg-3">
+                        <b> Date : {{attendance_report.attendance_id.attendance_date}}</b>
+                        <br>
+                        {% if attendance_report.status == True %}
+                        <b>[Status : Present]</b>
+                        {% else %}
+                        <b>[status: Absent]</b>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+{% endblock main_content%}

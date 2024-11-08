@@ -1,0 +1,61 @@
+{% extends 'hod_template/base_template.html' %}
+{%load static%}
+{% block header_page_title %}
+Manage Session Year
+{% endblock header_page_title %}
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title"> Add Session Year </h3>
+            </div>
+
+            <!-- form start -->
+            <form role="form" action='/manage_session_save' method='post'>
+                {% csrf_token %}
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Start year:</label>
+                        <input type="date" class="form-control" placeholder="Enter Start Year" name="start_year">
+                    </div>
+
+                    <div class="form-group">
+                        <label>End year:</label>
+                        <input type="date" class="form-control" placeholder="Enter End Year" name="end_year">
+                    </div>
+
+                    {% if messages %}
+                    <div class="col-12" id="message-container">
+                        {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary btn-block">Add Session Year</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Automatically hide the messages after 4-5 seconds
+    setTimeout(function () {
+        var messageContainer = document.getElementById('message-container');
+        if (messageContainer) {
+            messageContainer.style.display = 'none';
+        }
+    }, 2000); // 4000 milliseconds = 4 seconds (adjust to 5000 for 5 seconds)
+</script>
+
+{%endblock main_content %}

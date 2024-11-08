@@ -1,0 +1,81 @@
+{% extends 'hod_template/base_template.html' %}
+{%load static%}
+{% block header_page_title %} 
+Edit Subjects || Subject Name: {{subject.subject_name}} || # ID: {{subject.id}}
+{% endblock header_page_title %}
+{% block main_content %}
+<section class="content">
+<div class="container-fluid">
+        <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title"> Edit Subject Details </h3>
+            </div>
+
+            <!-- form start -->
+            <form role="form" action='/edit_subject_save' method = 'post'>
+                {% csrf_token %}
+              <div class="card-body">
+                <div class="form-group">
+                  <label >Subject Name:</label>
+                  <input type="text" class="form-control" placeholder="Enter Subject Name" name="subject_name" value="{{subject.subject_name}}">
+                  <input type="hidden" name="subject_id" value="{{subject.id}}">
+                </div>
+
+                <div class="form-group">
+                    <label> Course </label>
+                    <select class="form-control"  name="course_id">
+                        {% for course in courses %}
+                        <option value="{{ course.id }}" {% if course.id == subject.course_id.id %}selected{% endif %}>
+                          {{ course.course_name }}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                  <label> Staff </label>
+                  <select class="form-control"  name="staff_id">
+                      {% for staff in staffs %}
+                          <option value ="{{staff.id}}" {% if staff.id == subject.staff_id.id %} selected {% endif %}>{{staff.first_name}} {{staff.last_name}} </option>
+                      {% endfor %}
+                  </select>
+              </div>
+
+                {% if messages %}
+           <div class="col-12" id="message-container">
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+
+            {% if message.tags == 'success' %}
+            <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+            {% endif %}
+
+            {% endfor %}
+           </div>
+           {% endif %}
+
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-block">Save Subject</button>
+              </div>
+              <div class="card-footer">
+                <!-- Back button to redirect to manage_staff -->
+                <a href="/manage_subject" class="btn btn-primary btn-block">Back</a>
+            </div>
+            </form>
+          </div>
+    </div>
+</section>
+
+<script>
+  // Automatically hide the messages after 4-5 seconds
+  setTimeout(function() {
+      var messageContainer = document.getElementById('message-container');
+      if (messageContainer) {
+          messageContainer.style.display = 'none';
+      }
+  }, 2000); // 4000 milliseconds = 4 seconds (adjust to 5000 for 5 seconds)
+</script>
+
+{%endblock main_content %}
+
